@@ -185,7 +185,7 @@ A useful pull request includes:
 7. **Documentation:** updated README, guide, examples, or design record.
 8. **Follow-up:** known limitations and separate work that remains.
 
-Keep the pull request reviewable. Split unrelated changes. Respond to review comments with an update or a clear explanation. Mark threads resolved only after the requested change or rationale is present. Do not merge your own change unless repository policy explicitly permits it.
+Keep the pull request reviewable. Split unrelated changes. Respond to review comments with an update or a clear explanation. Mark threads resolved only after the requested change or rationale is present. The pull request author may merge only if they have maintainer permission and an independent eligible approval is recorded.
 
 ## 8. License and contribution ownership
 
@@ -196,3 +196,43 @@ The existing BRACKEN repositories use the MIT License. Only contribute code, doc
 Some repositories may not yet have working build, test, release, or deployment commands. Treat this as an open project task: document reproducible commands when they are implemented and exercised. Do not submit placeholder commands as if they were validated. If a contribution needs an unsettled architecture choice, submit a proposal or draft pull request and label the decision clearly.
 
 Contributions should help BRACKEN become easier to understand, reproduce, validate, and operate. Clear boundaries, honest status, safe failure behavior, and reviewable changes matter as much as adding features.
+
+## 10. Reviewers, code ownership, and merging to `main`
+
+### Who may review
+
+The initial code owner and maintainer for these repositories is **`@vayun-networks`**. The `.github/CODEOWNERS` file assigns that account as the default code owner for repository files, so GitHub can request its review when a pull request is opened.
+
+Additional reviewers become designated maintainers only after the repository owner grants them suitable GitHub access and adds them to the relevant CODEOWNERS entries or maintainer policy. Contributors can comment and provide useful feedback, but only an explicitly designated code owner or maintainer's approval satisfies the required review under this policy.
+
+The pull request author must not approve their own pull request. A maintainer who authored a pull request may merge it only after an independent eligible reviewer has approved it and all required checks and conversations are complete. If no independent reviewer is available, wait until another maintainer is designated; do not treat self-review as approval.
+
+### Who may merge
+
+Only repository maintainers with GitHub **Write**, **Maintain**, or **Admin** permission may merge into `main`. A reviewer does not gain merge permission merely by reviewing. Maintainers should merge only after the required approval, completed review conversations, required validation checks, and any migration or security notes are present.
+
+Direct pushes to `main` should be disabled. Use pull requests for code, configuration, documentation, and workflow changes so each change has a reviewable record. Force-pushes and deletion of `main` should be blocked. Emergency changes should be limited to restoring service or reducing immediate risk, then documented in a follow-up issue or pull request with the reason, impact, and review.
+
+### Required review standard
+
+- Require at least **one approving review** from a maintainer or designated code owner who is not the pull request author.
+- Require approval from the responsible code owner for changes to files covered by CODEOWNERS.
+- Dismiss stale approvals when new commits materially change the reviewed code.
+- Require all review conversations to be resolved before merge.
+- Require the CI status checks that the repository has actually adopted. Do not add a required check until it exists and produces reliable results.
+- For changes to authentication or authorization, cryptographic or secret handling, packet drop/forward policy, boot or upgrade paths, data formats, or cross-repository API contracts, seek **two independent reviews**, including the code owner. If a second eligible maintainer is not yet available, hold the change and add a second maintainer rather than waiving review silently.
+- The reviewer should state what they examined: correctness, failure behavior, security impact, compatibility, test evidence, and operational consequences relevant to the change.
+
+### CODEOWNERS coverage
+
+The initial `.github/CODEOWNERS` rule assigns all files to `@vayun-networks`. As domain maintainers join, split ownership by paths and list the appropriate GitHub usernames or teams. Keep the code owner list current; entries must refer to accounts or teams with repository access. CODEOWNERS requests review, but by itself it does **not** require approval or prevent a merge.
+
+### GitHub settings needed to enforce this policy
+
+Repository maintainers should configure branch protection or a repository ruleset for `main` with pull requests required, one approving review, code-owner review required, stale approvals dismissed, conversations resolved, force-push and branch deletion blocked, and required CI checks added when available. Restrict bypass rights to a documented emergency role. Review the settings after adding maintainers or changing CI.
+
+The files in this repository document the intended policy and identify the code owner. They do not configure GitHub branch protection. Until the settings above are enabled in GitHub, GitHub may still allow direct pushes or merges that do not meet this review standard. Do not describe the policy as technically enforced until the repository settings have been checked.
+
+### Reviewer checklist
+
+Before approving, check that the change belongs in this repository; matches the described behavior; handles invalid input and partial failure; uses safe defaults; does not expose secrets; documents compatibility and recovery; includes relevant tests or explains why they are not available; and does not claim unmeasured performance or unsupported capabilities. For cross-repository changes, confirm that the affected contracts and rollout order are recorded.
