@@ -237,15 +237,27 @@ The files in this repository document the intended policy and identify the code 
 
 Before approving, check that the change belongs in this repository; matches the described behavior; handles invalid input and partial failure; uses safe defaults; does not expose secrets; documents compatibility and recovery; includes relevant tests or explains why they are not available; and does not claim unmeasured performance or unsupported capabilities. For cross-repository changes, confirm that the affected contracts and rollout order are recorded.
 
+
 ## 11. Product ownership and authorized mainline mergers
 
 This section narrows the general maintainer language above for the current BRACKEN repositories.
 
-- **Product Owner:** `@abhiramhatwar`. The Product Owner is responsible for product direction, prioritization, and acceptance of product scope. This is a project governance role; it does not by itself grant GitHub permissions or repository ownership.
-- **Authorized mainline mergers:** only `@vayun-networks` and `@abhiramhatwar` should merge changes into the default branch, currently named `main`. No other contributor is authorized to merge.
-- **Review:** the pull request author cannot approve their own change. A pull request by one authorized merger must be approved by the other before it is merged. Pull requests from other contributors require approval from at least one of the two authorized maintainers.
-- **Access prerequisite:** `@abhiramhatwar` must first have write access for GitHub to treat him as a code owner or allow him to merge. The `.github/CODEOWNERS` entry records the intended owners but does not grant access.
-- **Merge settings:** maintainers should enforce this policy with GitHub rulesets on `main`. Use one active ruleset to restrict updates to the two authorized accounts, allowing them to update only through pull requests. Use a separate active ruleset requiring pull requests and an independent approval, with no bypass actors, so the authorized accounts cannot bypass review. Require code-owner review and conversation resolution; add CI checks after reliable checks exist. Do not allow branch deletion or force pushes.
-- **No silent exceptions:** if an authorized merger is unavailable, add and document a new maintainer before changing the allowed list. Do not grant merge rights to a contributor temporarily without recording the change.
+- **Product Owner:** `@abhiramhatwar`. The Product Owner owns product direction, prioritization, and acceptance of product scope. This is a project governance role, not a GitHub permission or repository ownership transfer.
+- **Authorized mergers:** only `@vayun-networks` and `@abhiramhatwar` are authorized to merge pull requests into the default branch, currently named `main`. The current repositories do not use a branch named `master`.
+- **Independent review:** a pull request author cannot approve their own change. A pull request opened by either authorized merger requires approval from the other before merge. Pull requests from other contributors require approval from at least one of the two authorized maintainers.
+- **Code ownership:** `.github/CODEOWNERS` lists both accounts. GitHub requires code owners to have write access; the CODEOWNERS entry does not grant access. Abhiram must have write access before GitHub can request his review as a code owner.
+- **Merge permission:** contributors may submit pull requests without merge permission. Only the two authorized maintainers should merge. Do not grant merge authority to other contributors.
 
-GitHub account roles and repository rules are separate from this document. The owner of a personal repository can still change repository settings. These rules define the normal merge process and should be enforced in repository settings wherever GitHub permits it.
+### Enforcing the policy on GitHub
+
+The repositories are currently owned by the personal account `vayun-networks`. GitHub's personal-repository model gives collaborators push access, and GitHub's per-user “restrict who can push” branch protection is available for organization-owned repositories, not personal-account repositories. Therefore, the policy above cannot currently be enforced as “only these two named accounts can merge” on these personal repositories using a branch protection rule.
+
+To enforce the exact two-person restriction:
+
+1. Move the repositories into a GitHub organization.
+2. Create a team such as `bracken-maintainers` with only `@vayun-networks` and `@abhiramhatwar`.
+3. Grant that team write access to the BRACKEN repositories and keep other contributors outside the team.
+4. Protect the `main` branch: require pull requests, require an independent approval and code-owner review, resolve conversations before merge, and restrict who can push to the protected branch to `bracken-maintainers`.
+5. Block force pushes and branch deletion. Add required CI checks once reliable checks exist. Avoid bypass permissions that would let other accounts skip review.
+
+A GitHub organization also makes team-based access and review ownership easier to manage. Until access and branch settings are configured, this section and CODEOWNERS document the intended policy but do not enforce it. See GitHub's documentation on [personal repository permissions](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/repository-access-and-collaboration/permission-levels-for-a-personal-account-repository), [protected branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches), and [code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
