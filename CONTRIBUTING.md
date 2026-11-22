@@ -236,3 +236,16 @@ The files in this repository document the intended policy and identify the code 
 ### Reviewer checklist
 
 Before approving, check that the change belongs in this repository; matches the described behavior; handles invalid input and partial failure; uses safe defaults; does not expose secrets; documents compatibility and recovery; includes relevant tests or explains why they are not available; and does not claim unmeasured performance or unsupported capabilities. For cross-repository changes, confirm that the affected contracts and rollout order are recorded.
+
+## 11. Product ownership and authorized mainline mergers
+
+This section narrows the general maintainer language above for the current BRACKEN repositories.
+
+- **Product Owner:** `@abhiramhatwar`. The Product Owner is responsible for product direction, prioritization, and acceptance of product scope. This is a project governance role; it does not by itself grant GitHub permissions or repository ownership.
+- **Authorized mainline mergers:** only `@vayun-networks` and `@abhiramhatwar` should merge changes into the default branch, currently named `main`. No other contributor is authorized to merge.
+- **Review:** the pull request author cannot approve their own change. A pull request by one authorized merger must be approved by the other before it is merged. Pull requests from other contributors require approval from at least one of the two authorized maintainers.
+- **Access prerequisite:** `@abhiramhatwar` must first have write access for GitHub to treat him as a code owner or allow him to merge. The `.github/CODEOWNERS` entry records the intended owners but does not grant access.
+- **Merge settings:** maintainers should enforce this policy with GitHub rulesets on `main`. Use one active ruleset to restrict updates to the two authorized accounts, allowing them to update only through pull requests. Use a separate active ruleset requiring pull requests and an independent approval, with no bypass actors, so the authorized accounts cannot bypass review. Require code-owner review and conversation resolution; add CI checks after reliable checks exist. Do not allow branch deletion or force pushes.
+- **No silent exceptions:** if an authorized merger is unavailable, add and document a new maintainer before changing the allowed list. Do not grant merge rights to a contributor temporarily without recording the change.
+
+GitHub account roles and repository rules are separate from this document. The owner of a personal repository can still change repository settings. These rules define the normal merge process and should be enforced in repository settings wherever GitHub permits it.
