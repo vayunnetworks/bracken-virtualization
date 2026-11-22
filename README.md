@@ -1,5 +1,7 @@
 # QEMU/KVM integration — BRACKEN Engineering Guide
 
+> BRACKEN integration with QEMU and KVM for virtual machine lifecycle, resource management, storage, and virtual networking.
+
 > **Status:** Early-stage design and implementation. This guide expands the intended repository scope; verify the code and release notes before relying on any described capability.
 
 # BRACKEN Virtualization
