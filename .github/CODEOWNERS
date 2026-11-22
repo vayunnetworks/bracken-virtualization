@@ -1,2 +1,4 @@
-# Initial BRACKEN code owner. Add component maintainers here when they receive repository access.
-* @vayun-networks
+# Product Owner and repository owner are the initial code owners.
+# Both accounts need write access for GitHub to request their reviews.
+* @vayun-networks @abhiramhatwar
+/.github/CODEOWNERS @vayun-networks @abhiramhatwar
